@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:todoapp/pages/todo_page.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -25,68 +24,9 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
-              children: [
-                const SizedBox(width: 10),
-                Text(
-                  formattedDate1,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  formattedDate2,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Icon(
-                      Icons.wb_sunny,
-                      size: 20,
-                      color: Colors.yellowAccent,
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      "Derece",
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  "Şehir Adı",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.deepPurple,
-      ),
       body: Column(
         children: [
           Expanded(
-            
             child: Container(
               padding: const EdgeInsets.only(top: 50),
               decoration: const BoxDecoration(
@@ -99,8 +39,10 @@ class _CalendarPageState extends State<CalendarPage> {
               child: Column(
                 children: [
                   TableCalendar(
-
-                    headerStyle: HeaderStyle(formatButtonVisible: false, titleCentered: true),
+                    headerStyle: HeaderStyle(
+                      formatButtonVisible: false,
+                      titleCentered: true,
+                    ),
                     daysOfWeekStyle: DaysOfWeekStyle(
                       weekdayStyle: const TextStyle(
                         color: Colors.black,

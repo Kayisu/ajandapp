@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:todoapp/utils/todo_tile.dart';
+import 'package:todoapp/util/dialog_box.dart';
+import 'package:todoapp/util/todo_tile.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key});
@@ -9,109 +9,78 @@ class TodoPage extends StatefulWidget {
   State<TodoPage> createState() => _TodoPageState();
 }
 
-DateTime now = DateTime.now();
-String formattedDate1 = DateFormat('dd/MM').format(now);
-String formattedDate2 = DateFormat('yyyy').format(now);
-
 class _TodoPageState extends State<TodoPage> {
-  List toDoList = [
-    ["Bir roket yapmak", false],
-    ["Mumyalarla gürşemek", false],
+  final _controller = TextEditingController();
+
+  // list of todo tasks
+  List todoList = [
+    ['Make a tutorial', false],
+    ['Do the laundry', false],
+    ['Go to the gym', false],
   ];
 
+  // checkbox was tapped
   void checkBoxChanged(bool? value, int index) {
     setState(() {
-      toDoList[index][1] = value;
+      todoList[index][1] = !todoList[index][1];
     });
   }
 
+  // save new task
+  void saveNewTask() {
+    setState(() {
+      todoList.add([_controller.text, false]);
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
+  // create new task
   void createNewTask() {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog();
+        return DialogBox(
+          controller: _controller,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
       },
     );
   }
 
+  // delete task
+  void deleteTask(int index) {
+    setState(() {
+      todoList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var scaffold = Scaffold(
-      backgroundColor: Colors.deepPurple[100],
+    return Scaffold(
+      backgroundColor: Colors.pinkAccent[100],
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
-              children: [
-                const SizedBox(width: 10),
-                Text(
-                  formattedDate1,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  formattedDate2,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Icon(
-                      Icons.wb_sunny,
-                      size: 20,
-                      color: Colors.yellowAccent,
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      "Derece",
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  "Şehir Adı",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+        title: Text('TO DO'),
         centerTitle: true,
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: const Color.fromARGB(255, 201, 63, 125),
+        elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Colors.deepPurple,
-        child: const Icon(Icons.add, color: Colors.black),
+        onPressed: createNewTask,
+        child: Icon(Icons.add),
       ),
       body: ListView.builder(
-        itemCount: toDoList.length,
+        itemCount: todoList.length,
         itemBuilder: (context, index) {
-          return TodoTile(
-            taskName: toDoList[index][0],
-            taskCompleted: toDoList[index][1],
+          return ToDoTile(
+            taskName: todoList[index][0],
+            taskCompleted: todoList[index][1],
             onChanged: (value) => checkBoxChanged(value, index),
+            deleteFunction: (context) => deleteTask(index),
           );
         },
       ),
     );
-    return scaffold;
   }
 }
