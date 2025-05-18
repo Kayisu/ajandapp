@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:todoapp/pages/todo_page.dart';
 import 'package:todoapp/pages/appbar.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -55,10 +56,6 @@ class _CalendarPageState extends State<CalendarPage> {
                       ),
                     ),
                     calendarStyle: CalendarStyle(
-                      todayDecoration: BoxDecoration(
-                        color: Colors.deepPurple,
-                        shape: BoxShape.circle,
-                      ),
                       selectedDecoration: BoxDecoration(
                         color: Colors.deepPurple,
                         shape: BoxShape.circle,
@@ -80,6 +77,20 @@ class _CalendarPageState extends State<CalendarPage> {
                     focusedDay: today,
                     firstDay: firstDay,
                     lastDay: lastDay,
+                    availableGestures: AvailableGestures.all,
+                    selectedDayPredicate: (day) => isSameDay(day, today),
+                    onDaySelected: (selectedDay, focusedDay) {
+                      setState(() {
+                        today = selectedDay;
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => TodoPage(selectedDate: selectedDay),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
