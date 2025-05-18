@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/pages/calendar_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:todoapp/pages/weather_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CalendarPage(),
+      home: WeatherHome(),
       theme: ThemeData(primarySwatch: Colors.deepPurple),
     );
   }
