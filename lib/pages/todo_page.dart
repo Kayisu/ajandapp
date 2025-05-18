@@ -1,14 +1,15 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoapp/util/dialog_box.dart';
 import 'package:todoapp/util/todo_tile.dart';
 import 'package:todoapp/pages/appbar.dart';
 
-// Global map to store tasks per date (formatted as "dd.mm.yyyy")
+// Global map to store tasks per date
 Map<String, List> tasksByDate = {};
 
-// Helper function to format the date key
 String formatDateKey(DateTime date) =>
-    "${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year}";
+    "${date.day.toString().padLeft(2,'0')}.${date.month.toString().padLeft(2,'0')}.${date.year}";
 
 class TodoPage extends StatefulWidget {
   final DateTime selectedDate;
@@ -26,19 +27,33 @@ class _TodoPageState extends State<TodoPage> {
   @override
   void initState() {
     super.initState();
-    dateKey = formatDateKey(widget.selectedDate);
-    // If no tasks exist for this date, initialize an empty list.
-    if (!tasksByDate.containsKey(dateKey)) {
-      tasksByDate[dateKey] = [];
-    }
-    todoList = tasksByDate[dateKey]!;
+    _loadTasks();
   }
 
-  // Checkbox was tapped
+  Future<void> _loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? jsonStr = prefs.getString('tasksByDate');
+    if (jsonStr != null) {
+      final Map<String, dynamic> decoded = jsonDecode(jsonStr);
+      tasksByDate = decoded.map((k, v) => MapEntry(k, List.from(v)));
+    }
+    dateKey = formatDateKey(widget.selectedDate);
+    tasksByDate.putIfAbsent(dateKey, () => []);
+    setState(() {
+      todoList = tasksByDate[dateKey]!;
+    });
+  }
+
+  Future<void> _saveTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('tasksByDate', jsonEncode(tasksByDate));
+  }
+
   void checkBoxChanged(bool? value, int index) {
     setState(() {
-      todoList[index][1] = !todoList[index][1];
+      todoList[index][1] = value ?? false;
     });
+    _saveTasks();
   }
 
   // Save new task
@@ -47,6 +62,7 @@ class _TodoPageState extends State<TodoPage> {
       todoList.add([_controller.text, false]);
       _controller.clear();
     });
+    _saveTasks();
     Navigator.of(context).pop();
   }
 
@@ -54,13 +70,11 @@ class _TodoPageState extends State<TodoPage> {
   void createNewTask() {
     showDialog(
       context: context,
-      builder: (context) {
-        return DialogBox(
-          controller: _controller,
-          onSave: saveNewTask,
-          onCancel: () => Navigator.of(context).pop(),
-        );
-      },
+      builder: (_) => DialogBox(
+        controller: _controller,
+        onSave: saveNewTask,
+        onCancel: () => Navigator.of(context).pop(),
+      ),
     );
   }
 
@@ -69,13 +83,14 @@ class _TodoPageState extends State<TodoPage> {
     setState(() {
       todoList.removeAt(index);
     });
+    _saveTasks();
   }
 
   @override
   Widget build(BuildContext context) {
     // dateKey is used to display the date formatted as "dd.mm.yyyy"
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 196, 174, 233),
+      backgroundColor: const Color.fromARGB(255,196,174,233),
       appBar: AppBar(
         title: Text(dateKey),
         centerTitle: true,
@@ -88,14 +103,12 @@ class _TodoPageState extends State<TodoPage> {
       ),
       body: ListView.builder(
         itemCount: todoList.length,
-        itemBuilder: (context, index) {
-          return ToDoTile(
-            taskName: todoList[index][0],
-            taskCompleted: todoList[index][1],
-            onChanged: (value) => checkBoxChanged(value, index),
-            deleteFunction: (context) => deleteTask(index),
-          );
-        },
+        itemBuilder: (_, i) => ToDoTile(
+          taskName: todoList[i][0],
+          taskCompleted: todoList[i][1],
+          onChanged: (v) => checkBoxChanged(v, i),
+          deleteFunction: (_) => deleteTask(i),
+        ),
       ),
       bottomNavigationBar: const Navbar(),
     );

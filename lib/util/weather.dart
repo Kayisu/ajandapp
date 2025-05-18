@@ -19,6 +19,7 @@ class WeatherServices {
         throw Exception('Failed to load weather data');
       }
     } catch (e) {
+      // ignore: avoid_print
       print(e.toString());
     }
   }
