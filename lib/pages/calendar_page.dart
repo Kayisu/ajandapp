@@ -34,8 +34,8 @@ class _CalendarPageState extends State<CalendarPage> {
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 196, 174, 233),
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
+                  // bottomLeft: Radius.circular(30),
+                  // bottomRight: Radius.circular(30),
                 ),
               ),
               child: Column(

@@ -74,11 +74,11 @@ class _TodoPageState extends State<TodoPage> {
   Widget build(BuildContext context) {
     // dateKey is used to display the date formatted as "dd.mm.yyyy"
     return Scaffold(
-      backgroundColor: Colors.pinkAccent[100],
+      backgroundColor: const Color.fromARGB(255, 196, 174, 233),
       appBar: AppBar(
         title: Text(dateKey),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 201, 63, 125),
+        backgroundColor: Colors.deepPurple,
         elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
