@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/pages/calendar_page.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('tr_TR', null);
   runApp(const MyApp());
 }
 
