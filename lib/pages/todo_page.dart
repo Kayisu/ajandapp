@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/util/dialog_box.dart';
 import 'package:todoapp/util/todo_tile.dart';
+import 'package:todoapp/pages/appbar.dart';
 
 // Global map to store tasks per date (formatted as "dd.mm.yyyy")
 Map<String, List> tasksByDate = {};
@@ -96,6 +97,7 @@ class _TodoPageState extends State<TodoPage> {
           );
         },
       ),
+      bottomNavigationBar: const Navbar(),
     );
   }
 }
