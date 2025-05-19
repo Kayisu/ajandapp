@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/pages/calendar_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:todoapp/pages/todo_page.dart';
 import 'package:todoapp/pages/weather_page.dart';
 // ignore: unused_import
 //import 'package:todoapp/pages/weather_page.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WeatherPage(),
+      home: CalendarPage(),
       theme: ThemeData(primarySwatch: Colors.deepPurple),
     );
   }

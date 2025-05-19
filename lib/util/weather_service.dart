@@ -34,9 +34,7 @@ class WeatherService {
 
     //fetch the current location
     Position position = await Geolocator.getCurrentPosition(
-      locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.high,
-      ),
+      locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
     );
 
     // convert the location into a list of placemark objects
@@ -45,8 +43,16 @@ class WeatherService {
       position.longitude,
     );
 
+    for (var placemark in placemarks) {
+      print("+ [LOG] - $placemark");
+    }
+
     //extract the city name from the first placemark
     String? city = placemarks[0].locality;
+
+    if (city == null || city.isEmpty) {
+      city = placemarks[0].administrativeArea;
+    }
 
     return city ?? "";
   }
