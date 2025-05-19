@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoapp/util/dialog_box.dart';
 import 'package:todoapp/util/todo_tile.dart';
-import 'package:todoapp/pages/appbar.dart';
 
 // Global map to store tasks per date
 Map<String, List> tasksByDate = {};
@@ -23,10 +22,12 @@ class _TodoPageState extends State<TodoPage> {
   final _controller = TextEditingController();
   late List todoList;
   late String dateKey;
+  bool _isLoading = true; // add loading flag
 
   @override
   void initState() {
     super.initState();
+    dateKey = formatDateKey(widget.selectedDate); // initialize dateKey right away
     _loadTasks();
   }
 
@@ -41,6 +42,7 @@ class _TodoPageState extends State<TodoPage> {
     tasksByDate.putIfAbsent(dateKey, () => []);
     setState(() {
       todoList = tasksByDate[dateKey]!;
+      _isLoading = false; // tasks loaded
     });
   }
 
@@ -101,16 +103,17 @@ class _TodoPageState extends State<TodoPage> {
         onPressed: createNewTask,
         child: const Icon(Icons.add),
       ),
-      body: ListView.builder(
-        itemCount: todoList.length,
-        itemBuilder: (_, i) => ToDoTile(
-          taskName: todoList[i][0],
-          taskCompleted: todoList[i][1],
-          onChanged: (v) => checkBoxChanged(v, i),
-          deleteFunction: (_) => deleteTask(i),
-        ),
-      ),
-      bottomNavigationBar: const Navbar(),
+      body: _isLoading 
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: todoList.length,
+              itemBuilder: (_, i) => ToDoTile(
+                taskName: todoList[i][0],
+                taskCompleted: todoList[i][1],
+                onChanged: (v) => checkBoxChanged(v, i),
+                deleteFunction: (_) => deleteTask(i),
+              ),
+            ),
     );
   }
 }

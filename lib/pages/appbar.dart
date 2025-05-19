@@ -5,7 +5,9 @@ import 'package:todoapp/pages/calendar_page.dart';
 
 // Sadece Bottom NavBar için widget
 class Navbar extends StatelessWidget {
-  const Navbar({super.key});
+  const Navbar({super.key, required this.tabController});
+
+  final TabController tabController;
 
   @override
   Widget build(BuildContext context) {

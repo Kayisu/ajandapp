@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names, non_constant_identifier_names
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names, avoid_print
 
 import 'dart:convert';
 
@@ -15,7 +15,7 @@ class WeatherService {
 
   Future<Weather> getWeather(String cityName) async {
     final response = await http.get(
-      Uri.parse('$BASE_URL?q=$cityName&appid=$API_KEY&units=metric'),
+      Uri.parse('$BASE_URL?q=$cityName&appid=$API_KEY&units=metric&lang=tr'),
     );
 
     if (response.statusCode == 200) {
