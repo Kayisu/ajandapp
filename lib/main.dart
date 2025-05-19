@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todoapp/pages/calendar_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
 // ignore: unused_import
-import 'package:todoapp/pages/weather_page.dart';
+//import 'package:todoapp/pages/weather_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
