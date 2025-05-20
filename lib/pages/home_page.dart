@@ -6,13 +6,13 @@ import 'package:todoapp/pages/weather_page.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
- late TabController _tabController;
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
 
   @override
   void initState() {
@@ -23,25 +23,37 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:TabBarView(
+      body: TabBarView(
         controller: _tabController,
+
         children: [
           CalendarPage(),
           TodoPage(selectedDate: DateTime.now()),
           WeatherPage(),
         ],
       ),
-      bottomNavigationBar: TabBar(
-        controller: _tabController,
-        tabs: const [
-          Tab(icon: Icon(Icons.calendar_today)),
-          Tab(icon: Icon(Icons.edit_note)),
-          Tab(icon: Icon(Icons.wb_sunny)),
-        ],
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.black,
-        indicatorColor: Colors.deepPurple,
-        indicatorWeight: 4.0,
+      bottomNavigationBar: Container(
+        height: 70,
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 34, 12, 95), // Mor arka plan
+
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 8,
+              offset: Offset(0, -2),
+            ),
+          ],
+        ),
+        child: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(icon: Icon(Icons.calendar_today, size: 32)),
+            Tab(icon: Icon(Icons.edit_note, size: 32)),
+            Tab(icon: Icon(Icons.wb_sunny, size: 32)),
+          ],
+          labelColor: Colors.black12, // Aktif ikon rengi
+        ),
       ),
     );
   }

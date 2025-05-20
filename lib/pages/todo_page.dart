@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todoapp/data/database.dart';
 import 'package:todoapp/util/dialog_box.dart';
 import 'package:todoapp/util/todo_tile.dart';
 
@@ -8,7 +10,7 @@ import 'package:todoapp/util/todo_tile.dart';
 Map<String, List> tasksByDate = {};
 
 String formatDateKey(DateTime date) =>
-    "${date.day.toString().padLeft(2,'0')}.${date.month.toString().padLeft(2,'0')}.${date.year}";
+    "${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year}";
 
 class TodoPage extends StatefulWidget {
   final DateTime selectedDate;
@@ -19,15 +21,25 @@ class TodoPage extends StatefulWidget {
 }
 
 class _TodoPageState extends State<TodoPage> {
+  final _myBox = Hive.box('myBox'); // Doğru kullanım
+  ToDoDataBase db = ToDoDataBase();
+
   final _controller = TextEditingController();
-  late List todoList;
+
   late String dateKey;
   bool _isLoading = true; // add loading flag
 
   @override
   void initState() {
     super.initState();
-    dateKey = formatDateKey(widget.selectedDate); // initialize dateKey right away
+    if (_myBox.get("TODOLIST") == null) {
+      db.createInitialData();
+    } else {
+      db.loadData();
+    }
+    dateKey = formatDateKey(
+      widget.selectedDate,
+    ); // initialize dateKey right away
     _loadTasks();
   }
 
@@ -41,7 +53,7 @@ class _TodoPageState extends State<TodoPage> {
     dateKey = formatDateKey(widget.selectedDate);
     tasksByDate.putIfAbsent(dateKey, () => []);
     setState(() {
-      todoList = tasksByDate[dateKey]!;
+      db.toDoList = tasksByDate[dateKey]!;
       _isLoading = false; // tasks loaded
     });
   }
@@ -53,7 +65,7 @@ class _TodoPageState extends State<TodoPage> {
 
   void checkBoxChanged(bool? value, int index) {
     setState(() {
-      todoList[index][1] = value ?? false;
+      db.toDoList[index][1] = value ?? false;
     });
     _saveTasks();
   }
@@ -61,7 +73,7 @@ class _TodoPageState extends State<TodoPage> {
   // Save new task
   void saveNewTask() {
     setState(() {
-      todoList.add([_controller.text, false]);
+      db.toDoList.add([_controller.text, false]);
       _controller.clear();
     });
     _saveTasks();
@@ -72,18 +84,19 @@ class _TodoPageState extends State<TodoPage> {
   void createNewTask() {
     showDialog(
       context: context,
-      builder: (_) => DialogBox(
-        controller: _controller,
-        onSave: saveNewTask,
-        onCancel: () => Navigator.of(context).pop(),
-      ),
+      builder:
+          (_) => DialogBox(
+            controller: _controller,
+            onSave: saveNewTask,
+            onCancel: () => Navigator.of(context).pop(),
+          ),
     );
   }
 
   // Delete task
   void deleteTask(int index) {
     setState(() {
-      todoList.removeAt(index);
+      db.toDoList.removeAt(index);
     });
     _saveTasks();
   }
@@ -92,7 +105,7 @@ class _TodoPageState extends State<TodoPage> {
   Widget build(BuildContext context) {
     // dateKey is used to display the date formatted as "dd.mm.yyyy"
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255,196,174,233),
+      backgroundColor: const Color.fromARGB(255, 196, 174, 233),
       appBar: AppBar(
         title: Text(dateKey),
         centerTitle: true,
@@ -103,17 +116,19 @@ class _TodoPageState extends State<TodoPage> {
         onPressed: createNewTask,
         child: const Icon(Icons.add),
       ),
-      body: _isLoading 
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: todoList.length,
-              itemBuilder: (_, i) => ToDoTile(
-                taskName: todoList[i][0],
-                taskCompleted: todoList[i][1],
-                onChanged: (v) => checkBoxChanged(v, i),
-                deleteFunction: (_) => deleteTask(i),
+      body:
+          _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                itemCount: db.toDoList.length,
+                itemBuilder:
+                    (_, i) => ToDoTile(
+                      taskName: db.toDoList[i][0],
+                      taskCompleted: db.toDoList[i][1],
+                      onChanged: (v) => checkBoxChanged(v, i),
+                      deleteFunction: (_) => deleteTask(i),
+                    ),
               ),
-            ),
     );
   }
 }
