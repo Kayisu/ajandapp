@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:todoapp/model/weather_model.dart';
 import 'package:todoapp/util/weather_service.dart';
 
@@ -28,11 +29,25 @@ class _WeatherPageState extends State<WeatherPage> {
     }
   }
 
-  // String getWeatherAnimation() {
-  //   switch (_weather!.mainCondition) {
-  //     case ""
-  //   }
-  // }
+  String getWeatherAnimation(String? mainCondition) {
+    if(mainCondition == null || mainCondition.isEmpty) {
+      return "assets/partly_cloudy.json";
+    }
+    switch (mainCondition.toLowerCase()) {
+      case "clouds":
+       return "assets/cloudy.json";
+      case "snow":
+        return "assets/snowy.json";
+      case "rain":
+        return "assets/rainy.json";
+      case "clear":
+        return "assets/sunny.json";
+      case "few clouds":
+        return "assets/partly_cloudyjson";
+      default:
+        return "assets/partly_cloudy.json";
+    }
+  }
 
   @override
   void initState() {
@@ -82,7 +97,12 @@ class _WeatherPageState extends State<WeatherPage> {
                     ),
                     const SizedBox(height: 10),
 
-
+                    Lottie.asset(
+                      getWeatherAnimation(_weather?.mainCondition),
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.fill,
+                    ),
                     Text(
                       _weather!.mainCondition,
                       style: const TextStyle(
