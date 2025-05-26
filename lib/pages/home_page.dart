@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage>
       bottomNavigationBar: Container(
         height: 70,
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 34, 12, 95), // Mor arka plan
+          color: Color.fromARGB(255, 55, 29, 99), // Mor arka plan
 
           boxShadow: [
             BoxShadow(
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage>
             Tab(icon: Icon(Icons.edit_note, size: 32)),
             Tab(icon: Icon(Icons.wb_sunny, size: 32)),
           ],
-          labelColor: Colors.black12, // Aktif ikon rengi
+          labelColor: const Color.fromARGB(197, 255, 255, 255), // Aktif ikon rengi
         ),
       ),
     );

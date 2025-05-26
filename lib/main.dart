@@ -1,19 +1,11 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todoapp/pages/calendar_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:todoapp/pages/home_page.dart';
-import 'package:todoapp/pages/todo_page.dart';
-import 'package:todoapp/pages/weather_page.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await Hive.openBox('myBox');
-  await initializeDateFormatting('tr_TR', null);
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized(); // Ensure that Flutter is initialized before running the app
+  await initializeDateFormatting('tr_TR', null); // Initialize date formatting for Turkish locale
+  runApp(const MyApp()); 
 }
 
 class MyApp extends StatelessWidget {
@@ -28,4 +20,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// class MyApp extends StatelessWidget {

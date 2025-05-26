@@ -29,6 +29,7 @@ class _CalendarPageState extends State<CalendarPage> {
         children: [
           Expanded(
             child: Container(
+              
               padding: const EdgeInsets.only(top: 50),
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 196, 174, 233),
@@ -36,7 +37,9 @@ class _CalendarPageState extends State<CalendarPage> {
                 ),
               ),
               child: Column(
+                
                 children: [
+                  const SizedBox(height: 20),
                   TableCalendar(
                     headerStyle: HeaderStyle(
                       formatButtonVisible: false,

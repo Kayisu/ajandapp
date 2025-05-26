@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/util/my_button.dart';
 
 class DialogBox extends StatelessWidget {
-  // ignore: prefer_typing_uninitialized_variables
   final controller;
   final VoidCallback onSave;
   final VoidCallback onCancel;
@@ -12,9 +10,18 @@ class DialogBox extends StatelessWidget {
     required this.onSave,
     required this.onCancel,
   });
+  
 
   @override
   Widget build(BuildContext context) {
+
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      backgroundColor: const Color.fromARGB(255, 115, 64, 201),
+      foregroundColor: Colors.white,
+      shape: RoundedRectangleBorder(),
+    );
+
+
     return AlertDialog(
       backgroundColor: const Color.fromARGB(255, 196, 192, 253),
       content: SizedBox(
@@ -25,7 +32,7 @@ class DialogBox extends StatelessWidget {
             TextField(
               controller: controller,
               decoration: InputDecoration(
-                hintText: 'Add a new task',
+                hintText: 'Yeni bir görev ekle',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -33,9 +40,9 @@ class DialogBox extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                MyButton(text: "save", onPressed: onSave),
+                ElevatedButton(onPressed: onSave, style: style, child: const Text("Kaydet"),),
                 const SizedBox(width: 8),
-                MyButton(text: "cancel", onPressed: onCancel),
+                ElevatedButton(onPressed: onCancel, style: style, child: const Text("İptal")),
               ],
             ),
           ],
