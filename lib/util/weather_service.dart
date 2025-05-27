@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names, non_constant_identifier_names, avoid_print
+// ignore_for_file: non_constant_identifier_names, constant_identifier_names
 
 import 'dart:convert';
 
@@ -42,10 +42,6 @@ class WeatherService {
       position.latitude,
       position.longitude,
     );
-
-    for (var placemark in placemarks) {
-      print("+ [LOG] - $placemark");
-    }
 
     //extract the city name from the first placemark
     String? city = placemarks[0].locality;

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DialogBox extends StatelessWidget {
-  final controller;
+  final TextEditingController controller;
+  /// Callback functions for saving and canceling the dialog
   final VoidCallback onSave;
   final VoidCallback onCancel;
+
   const DialogBox({
     super.key,
     required this.controller,
