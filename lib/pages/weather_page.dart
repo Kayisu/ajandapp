@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:todoapp/model/weather_model.dart';
 import 'package:todoapp/util/weather_service.dart';
 
-class WeatherPage extends StatefulWidget {
+class WeatherPage extends StatefulWidget { // Hava durumu sayfasını gösteren widget
   const WeatherPage({super.key});
 
   @override
@@ -13,24 +13,23 @@ class WeatherPage extends StatefulWidget {
 }
 
 class _WeatherPageState extends State<WeatherPage> {
-  final _weatherService = WeatherService("7e0ec845e195d0277fd255af54bfb9ee");
-  Weather? _weather;
+  final _weatherService = WeatherService("7e0ec845e195d0277fd255af54bfb9ee");  //api key
+  Weather? _weather; //nullable weather nesnesi
 
-  // fetch weather data
-  Future<void> _fetchWeather() async {
-    String cityName = await _weatherService.getCurrentCity();
+  Future<void> _fetchWeather() async { // asenkron metotla hava durumu verisini getiriyoruz
+    String cityName = await _weatherService.getCurrentCity();  // getCurrentCity fonksiyonundan şehir ismini alıyoruz
     try {
-      Weather weather = await _weatherService.getWeather(cityName);
-      setState(() {
+      Weather weather = await _weatherService.getWeather(cityName); // getWeather fonksiyonundan hava durumu verisini alıyoruz
+      setState(() { // setState ile widget'ı ilgili hava durumu verisi ile güncelliyoruz
         _weather = weather;
       });
-    } catch (e) {
+    } catch (e) { // hata ayıklama
       print(e);
     }
   }
 
-  String getWeatherAnimation(String? mainCondition) {
-    if(mainCondition == null || mainCondition.isEmpty) {
+  String getWeatherAnimation(String? mainCondition) { // hava durumu animasyonunu döndüren metot
+    if(mainCondition == null || mainCondition.isEmpty) { // eğer mainCondition null veya boş ise varsayılan animasyonu döndür
       return "assets/partly_cloudy.json";
     }
     switch (mainCondition.toLowerCase()) {
@@ -50,11 +49,11 @@ class _WeatherPageState extends State<WeatherPage> {
   }
 
   @override
-  void initState() {
+  void initState() { // widget ilk kez çağrıldığında 
     super.initState();
-    _fetchWeather();
+    _fetchWeather(); // hava durumu verisini çekiyoruz
     setState(() {
-      _weather = null;
+      _weather = null; // başlangıçta hava durumu verisi null 
     });
   }
 
@@ -62,23 +61,23 @@ class _WeatherPageState extends State<WeatherPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // Gradient background
+        // Linear gradient arka plan
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF74ABE2), Color(0xFF5563DE)],
-            begin: Alignment.topCenter,
+            begin: Alignment.topCenter, //
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Center(
-          child: _weather == null
+        child: Center( 
+          child: _weather == null // eğer hava durumu verisi hâlâ null ise yükleniyor animasyonu gösterir
               ? const CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 )
-              : Column(
+              : Column( // hava durumu verisi alındığında gösterilecek widget'lar
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    Text( // şehir ismi stili
                       _weather!.cityName,
                       style: const TextStyle(
                         fontSize: 36,
@@ -87,7 +86,7 @@ class _WeatherPageState extends State<WeatherPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Text(
+                    Text( // sıcaklık 
                       '${_weather!.temperature.round()} °C',
                       style: const TextStyle(
                         fontSize: 48,
@@ -97,14 +96,14 @@ class _WeatherPageState extends State<WeatherPage> {
                     ),
                     const SizedBox(height: 10),
 
-                    Lottie.asset(
+                    Lottie.asset( // Lottie paketi ile hava durumu animasyonu
                       getWeatherAnimation(_weather?.mainCondition),
                       width: 200,
                       height: 200,
                       fit: BoxFit.fill,
                     ),
-                    Text(
-                      _weather!.mainCondition,
+                    Text( // hava durumu açıklaması
+                      _weather!.mainCondition, 
                       style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w400,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:todoapp/pages/todo_page.dart';
 
-class CalendarPage extends StatefulWidget {
+class CalendarPage extends StatefulWidget { // Uygulama açıldığında takvim sayfasını gösteren widget
   const CalendarPage({super.key});
 
   @override
@@ -10,13 +10,13 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  DateTime today = DateTime.now();
-  DateTime firstDay = DateTime(
+  DateTime today = DateTime.now(); // Bugünün tarihini alıyoruz
+  DateTime firstDay = DateTime( // Takvimin başlangıç tarihi
     DateTime.now().year - 5,
     DateTime.now().month,
     DateTime.now().day,
   );
-  DateTime lastDay = DateTime(
+  DateTime lastDay = DateTime( // Takvimin bitiş tarihi
     DateTime.now().year + 10,
     DateTime.now().month,
     DateTime.now().day,
@@ -29,8 +29,7 @@ class _CalendarPageState extends State<CalendarPage> {
         children: [
           Expanded(
             child: Container(
-              
-              padding: const EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.only(top: 50), 
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 196, 174, 233),
                 borderRadius: BorderRadius.only(
@@ -40,7 +39,9 @@ class _CalendarPageState extends State<CalendarPage> {
                 
                 children: [
                   const SizedBox(height: 20),
-                  TableCalendar(
+                  TableCalendar( //TableCalendar paketi ile takvim
+
+                  // Takvim stili
                     headerStyle: HeaderStyle(
                       formatButtonVisible: false,
                       titleCentered: true,
@@ -73,21 +74,21 @@ class _CalendarPageState extends State<CalendarPage> {
                         fontSize: 15,
                       ),
                     ),
-                    locale: 'tr_TR',
+                    locale: 'tr_TR', //lokalizasyon
                     focusedDay: today,
                     firstDay: firstDay,
                     lastDay: lastDay,
-                    availableGestures: AvailableGestures.all,
-                    selectedDayPredicate: (day) => isSameDay(day, today),
-                    onDaySelected: (selectedDay, focusedDay) {
+                    availableGestures: AvailableGestures.all, 
+                    selectedDayPredicate: (day) => isSameDay(day, today), // Seçili günün bugünkü tarih ile aynı olup olmadığını kontrol ediyoruz
+                    onDaySelected: (selectedDay, focusedDay) { // Seçilen günün tıklanma eventi
                       setState(() {
-                        today = selectedDay;
+                        today = selectedDay; // Seçilen günü today değişkenine atıyoruz
                       });
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder:
-                              (context) => TodoPage(selectedDate: selectedDay),
+                              (context) => TodoPage(selectedDate: selectedDay), //ilgili tarihe ait TodoPage'e yönlendiriyoruz
                         ),
                       );
                     },

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:todoapp/pages/home_page.dart';
+import 'package:todoapp/pages/home_bar.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure that Flutter is initialized before running the app
-  await initializeDateFormatting('tr_TR', null); // Initialize date formatting for Turkish locale
+  WidgetsFlutterBinding.ensureInitialized(); // Flutter uygulamasının başlatılmasını bekler
+  await initializeDateFormatting('tr_TR', null); //Lokalizasyon için Türkçe tarih formatlarını başlatır (Ay isimleri, gün isimleri vs.)
   runApp(const MyApp()); 
 }
 
@@ -15,8 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      home: HomeBar(), // Ana sayfa olarak HomeBar widget'ını kullanır
+      theme: ThemeData(primarySwatch: Colors.deepPurple), // Uygulamanın genel temasını belirler
     );
   }
 }
