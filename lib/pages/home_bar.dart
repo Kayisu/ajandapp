@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/pages/calendar_page.dart';
-import 'package:todoapp/pages/todo_page.dart';
-import 'package:todoapp/pages/weather_page.dart';
+import 'package:ajandapp/pages/calendar_page.dart';
+import 'package:ajandapp/pages/todo_page.dart';
+import 'package:ajandapp/pages/weather_page.dart';
 
 class HomeBar extends StatefulWidget { //Navigation bar, diğer sayfalara geçişi sağlayan widget 
   const HomeBar({super.key});

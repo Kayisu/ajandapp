@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:todoapp/pages/home_bar.dart';
+import 'package:ajandapp/pages/home_bar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Flutter uygulamasının başlatılmasını bekler

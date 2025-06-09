@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:todoapp/pages/todo_page.dart';
+import 'package:ajandapp/pages/todo_page.dart';
 
 class CalendarPage extends StatefulWidget { // Uygulama açıldığında takvim sayfasını gösteren widget
   const CalendarPage({super.key});

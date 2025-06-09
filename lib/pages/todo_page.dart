@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todoapp/util/dialog_box.dart';
-import 'package:todoapp/util/todo_task.dart';
+import 'package:ajandapp/util/dialog_box.dart';
+import 'package:ajandapp/util/todo_task.dart';
 
 // Her tarih için görevleri saklayan global harita
 Map<String, List> tasksByDate = {};

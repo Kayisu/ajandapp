@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:todoapp/model/weather_model.dart';
-import 'package:todoapp/util/weather_service.dart';
+import 'package:ajandapp/model/weather_model.dart';
+import 'package:ajandapp/util/weather_service.dart';
 
 class WeatherPage extends StatefulWidget { // Hava durumu sayfasını gösteren widget
   const WeatherPage({super.key});
