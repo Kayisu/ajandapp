@@ -13,7 +13,7 @@ class WeatherPage extends StatefulWidget { // Hava durumu sayfasını gösteren 
 }
 
 class _WeatherPageState extends State<WeatherPage> {
-  final _weatherService = WeatherService("7e0ec845e195d0277fd255af54bfb9ee");  //api key
+  final _weatherService = WeatherService("YOUR API KEY");  //api key
   Weather? _weather; //nullable weather nesnesi
 
   Future<void> _fetchWeather() async { // asenkron metotla hava durumu verisini getiriyoruz
